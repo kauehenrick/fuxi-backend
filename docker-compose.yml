@@ -1,8 +1,14 @@
 services:
   app:
+    environment:
+      HOME: /var/www
     build:
       context: .
       dockerfile: docker/php/Dockerfile
+      args:
+        UID: 1000
+        GID: 1000
+    user: "${UID}:${GID}"
     container_name: laravel_app
     volumes:
       - ./:/var/www
