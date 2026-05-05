@@ -13,7 +13,7 @@ class BookController extends Controller
             'title' => 'required|string|max:255',
             'author_id' => 'required|exists:authors,id',
             'genre_id' => 'required|exists:genres,id',
-            'published_year' => 'required|integer|min:1000|max:' . date('Y'),
+            'published_year' => 'nullable|integer|min:1000|max:' . date('Y'),
             'localization' => 'nullable|string|max:255',
             'isbn' => 'nullable|string|max:255|unique:books,isbn',
         ]);
@@ -34,7 +34,7 @@ class BookController extends Controller
             'title' => 'required|string|max:255',
             'author_id' => 'required|exists:authors,id',
             'genre_id' => 'required|exists:genres,id',
-            'published_year' => 'required|integer|min:1000|max:' . date('Y'),
+            'published_year' => 'nullable|integer|min:1000|max:' . date('Y'),
             'localization' => 'nullable|string|max:255',
             'isbn' => 'nullable|string|max:255|unique:books,isbn',
         ]);
@@ -42,5 +42,14 @@ class BookController extends Controller
         $book->update($data);
 
         return response()->json($book);
+    }
+
+    public function destroy(Book $book)
+    {
+        $book->delete();
+
+        return response()->json([
+            'message' => 'Livro deletado com sucesso.',
+        ]);
     }
 }

@@ -16,9 +16,10 @@ return new class extends Migration
             $table->string('title');
             $table->foreignId('author_id')->constrained('authors')->cascadeOnDelete();
             $table->foreignId('genre_id')->constrained('genres')->cascadeOnDelete();
-            $table->year('published_year');
+            $table->year('published_year')->nullable();
             $table->string('localization')->nullable();
-            $table->string('isbn')->nullable()->unique();
+            $table->string('isbn')->nullable();
+            $table->softDeletes();
             $table->timestamps();
         });
     }
