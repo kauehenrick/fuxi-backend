@@ -42,6 +42,8 @@ RUN php artisan cache:clear || true
 COPY docker/render/nginx.conf /etc/nginx/sites-enabled/default
 COPY docker/render/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
+RUN php artisan optimize:clear
+
 EXPOSE 10000
 
 CMD php artisan migrate --force && /usr/bin/supervisord
