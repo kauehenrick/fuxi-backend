@@ -4,10 +4,12 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Book;
+use Illuminate\Validation\Rule;
+use App\Http\Requests\BookRequest;
 
 class BookController extends Controller
 {
-    public function store(Request $request)
+    public function store(BookRequest $request)
     {
         $data = $request->validate([
             'title' => 'required|string|max:255',
@@ -15,7 +17,12 @@ class BookController extends Controller
             'genre_id' => 'required|exists:genres,id',
             'published_year' => 'nullable|integer|min:1000|max:' . date('Y'),
             'localization' => 'nullable|string|max:255',
-            'isbn' => 'nullable|string|max:255|unique:books,isbn',
+            'isbn' => [
+                'nullable',
+                'string',
+                'max:255',
+                Rule::unique('books', 'isbn')->ignore($request->id),
+            ],
         ]);
 
         $book = Book::create($data);
@@ -28,7 +35,7 @@ class BookController extends Controller
         return response()->json(Book::all());
     }
 
-    public function update(Request $request, Book $book)
+    public function update(BookRequest $request, Book $book)
     {
         $data = $request->validate([
             'title' => 'required|string|max:255',
@@ -36,7 +43,12 @@ class BookController extends Controller
             'genre_id' => 'required|exists:genres,id',
             'published_year' => 'nullable|integer|min:1000|max:' . date('Y'),
             'localization' => 'nullable|string|max:255',
-            'isbn' => 'nullable|string|max:255|unique:books,isbn',
+            'isbn' => [
+                'nullable',
+                'string',
+                'max:255',
+                Rule::unique('books', 'isbn')->ignore($request->id),
+            ],
         ]);
 
         $book->update($data);
