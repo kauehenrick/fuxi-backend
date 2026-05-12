@@ -4,10 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Models\Author;
 use Illuminate\Http\Request;
+use App\Http\Requests\AuthorRequest;
 
 class AuthorController extends Controller
 {
-    public function store(Request $request)
+    public function store(AuthorRequest $request)
     {
         $data = $request->validate([
             'name' => 'required|string|max:255',
@@ -23,7 +24,7 @@ class AuthorController extends Controller
         return response()->json(Author::all());
     }
 
-    public function update(Request $request, Author $author)
+    public function update(AuthorRequest $request, Author $author)
     {
         $data = $request->validate([
             'name' => 'required|string|max:255',

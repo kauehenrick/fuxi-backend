@@ -6,7 +6,7 @@ use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
-class BookRequest extends FormRequest
+class GenreRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,20 +24,12 @@ class BookRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title' => [
+            'name' => [
                 'required',
                 'string',
                 'max:255',
-                Rule::unique('books', 'title')
-                    ->ignore($this->route('book')),
-            ],
-
-            'isbn' => [
-                'nullable',
-                'string',
-                'max:255',
-                Rule::unique('books', 'isbn')
-                    ->ignore($this->route('book')),
+                Rule::unique('genres', 'name')
+                    ->ignore($this->route('genre')),
             ],
         ];
     }
@@ -45,16 +37,14 @@ class BookRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'title.unique' => 'Já existe um livro com este título.',
-            'isbn.unique' => 'Já existe um livro com este ISBN.',
+            'name.unique' => 'Já existe um gênero com esse nome.',
         ];
     }
 
     public function attributes(): array
     {
         return [
-            'title' => 'título',
-            'isbn' => 'ISBN',
+            'name' => 'name',
         ];
     }
 }

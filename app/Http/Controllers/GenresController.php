@@ -4,10 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Models\Genre;
 use Illuminate\Http\Request;
+use App\Http\Requests\GenreRequest;
 
 class GenresController extends Controller
 {
-    public function store(Request $request)
+    public function store(GenreRequest $request)
     {
         $data = $request->validate([
             'name' => 'required|string|max:255',
@@ -23,7 +24,7 @@ class GenresController extends Controller
         return response()->json(Genre::all());
     }
 
-    public function update(Request $request, Genre $genre)
+    public function update(GenreRequest $request, Genre $genre)
     {
         $data = $request->validate([
             'name' => 'required|string|max:255',
