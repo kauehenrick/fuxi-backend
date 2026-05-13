@@ -1,4 +1,0 @@
-config('database.connections.mysql.database');
-\App\Models\Author::create(['name' => 'Teste']);
-App\Models\Author::create(['name' => 'Teste']);
-App\Models\Author::all();
