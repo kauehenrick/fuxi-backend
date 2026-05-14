@@ -21,7 +21,9 @@ class AuthorController extends Controller
 
     public function index()
     {
-        return response()->json(Author::all());
+        return response()->json(
+            Author::query()->withTrashed()->get()
+        );
     }
 
     public function update(AuthorRequest $request, Author $author)
@@ -41,6 +43,19 @@ class AuthorController extends Controller
 
         return response()->json([
             'message' => 'Autor deletado com sucesso.',
+            'author' => $author->fresh(),
+        ]);
+    }
+    
+    public function restore(int $id)
+    {
+        $author = Author::withTrashed()->findOrFail($id);
+
+        $author->restore();
+
+        return response()->json([
+            'message' => 'Autor(a) habilitado com sucesso.',
+            'author' => $author,
         ]);
     }
 }

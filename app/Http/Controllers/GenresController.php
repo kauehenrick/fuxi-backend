@@ -21,7 +21,9 @@ class GenresController extends Controller
 
     public function index()
     {
-        return response()->json(Genre::all());
+        return response()->json(
+            Genre::query()->withTrashed()->get()
+        );
     }
 
     public function update(GenreRequest $request, Genre $genre)
@@ -41,6 +43,19 @@ class GenresController extends Controller
 
         return response()->json([
             'message' => 'Genêro deletado com sucesso.',
+            'genre' => $genre->fresh(),
+        ]);
+    }
+
+    public function restore(int $id)
+    {
+        $genre = Genre::withTrashed()->findOrFail($id);
+
+        $genre->restore();
+
+        return response()->json([
+            'message' => 'Genêro habilitado com sucesso.',
+            'genre' => $genre,
         ]);
     }
 }

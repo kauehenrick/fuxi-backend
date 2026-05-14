@@ -64,6 +64,19 @@ class BookController extends Controller
 
         return response()->json([
             'message' => 'Livro deletado com sucesso.',
+            'book' => $book->fresh(),
+        ]);
+    }
+
+    public function restore(int $id)
+    {
+        $book = Book::withTrashed()->findOrFail($id);
+
+        $book->restore();
+
+        return response()->json([
+            'message' => 'Livro habilitado com sucesso.',
+            'book' => $book,
         ]);
     }
 }
