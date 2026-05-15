@@ -10,4 +10,9 @@ class Genre extends Model
     use SoftDeletes;
 
     protected $fillable = ['name'];
+
+    public function books()
+    {
+        return $this->hasMany(Book::class);
+    }
 }

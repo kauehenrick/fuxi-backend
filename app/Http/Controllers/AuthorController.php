@@ -10,9 +10,7 @@ class AuthorController extends Controller
 {
     public function store(AuthorRequest $request)
     {
-        $data = $request->validate([
-            'name' => 'required|string|max:255',
-        ]);
+        $data = $request->validated();
 
         $author = Author::create($data);
 
@@ -28,9 +26,7 @@ class AuthorController extends Controller
 
     public function update(AuthorRequest $request, Author $author)
     {
-        $data = $request->validate([
-            'name' => 'required|string|max:255',
-        ]);
+        $data = $request->validated();
 
         $author->update($data);
 
@@ -39,6 +35,12 @@ class AuthorController extends Controller
 
     public function destroy(Author $author)
     {
+        if ($author->books()->exists()) {
+            return response()->json([
+                'message' => 'Não é permitido desativar autores associados a livros.'
+            ], 422);
+        }
+
         $author->delete();
 
         return response()->json([
@@ -46,7 +48,7 @@ class AuthorController extends Controller
             'author' => $author->fresh(),
         ]);
     }
-    
+
     public function restore(int $id)
     {
         $author = Author::withTrashed()->findOrFail($id);

@@ -10,9 +10,7 @@ class GenresController extends Controller
 {
     public function store(GenreRequest $request)
     {
-        $data = $request->validate([
-            'name' => 'required|string|max:255',
-        ]);
+        $data = $request->validated();
 
         $genre = Genre::create($data);
 
@@ -28,9 +26,7 @@ class GenresController extends Controller
 
     public function update(GenreRequest $request, Genre $genre)
     {
-        $data = $request->validate([
-            'name' => 'required|string|max:255',
-        ]);
+        $data = $request->validated();
 
         $genre->update($data);
 
@@ -38,7 +34,13 @@ class GenresController extends Controller
     }
 
     public function destroy(Genre $genre)
-    {
+        {
+            if ($genre->books()->exists()) {
+                return response()->json([
+                    'message' => 'Não é permitido desativar gêneros associados a livros.'
+                ], 422);
+            }
+
         $genre->delete();
 
         return response()->json([
