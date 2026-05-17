@@ -17,6 +17,7 @@ return new class extends Migration
             $table->foreignId('author_id')->constrained('authors')->cascadeOnDelete();
             $table->foreignId('genre_id')->constrained('genres')->cascadeOnDelete();
             $table->year('published_year')->nullable();
+            $table->integer('amount');
             $table->string('localization')->nullable();
             $table->string('isbn')->nullable();
             $table->softDeletes();

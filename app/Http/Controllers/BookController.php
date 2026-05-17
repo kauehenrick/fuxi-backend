@@ -11,21 +11,7 @@ class BookController extends Controller
 {
     public function store(BookRequest $request)
     {
-        $data = $request->validate([
-            'title' => 'required|string|max:255',
-            'author_id' => 'required|exists:authors,id',
-            'genre_id' => 'required|exists:genres,id',
-            'published_year' => 'nullable|integer|min:1000|max:' . date('Y'),
-            'localization' => 'nullable|string|max:255',
-            'isbn' => [
-                'nullable',
-                'string',
-                'max:255',
-                Rule::unique('books', 'isbn')->ignore($request->id),
-            ],
-        ]);
-
-        $book = Book::create($data);
+        $book = Book::create($request->validated());
 
         return response()->json($book, 201);
     }
@@ -39,21 +25,7 @@ class BookController extends Controller
 
     public function update(BookRequest $request, Book $book)
     {
-        $data = $request->validate([
-            'title' => 'required|string|max:255',
-            'author_id' => 'required|exists:authors,id',
-            'genre_id' => 'required|exists:genres,id',
-            'published_year' => 'nullable|integer|min:1000|max:' . date('Y'),
-            'localization' => 'nullable|string|max:255',
-            'isbn' => [
-                'nullable',
-                'string',
-                'max:255',
-                Rule::unique('books', 'isbn')->ignore($request->id),
-            ],
-        ]);
-
-        $book->update($data);
+        $book->update($request->validated());
 
         return response()->json($book);
     }

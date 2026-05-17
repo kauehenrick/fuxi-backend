@@ -11,6 +11,10 @@ class Genre extends Model
 
     protected $fillable = ['name'];
 
+    protected $attributes = [
+        'deleted_at' => null,
+    ];
+
     public function books()
     {
         return $this->hasMany(Book::class);

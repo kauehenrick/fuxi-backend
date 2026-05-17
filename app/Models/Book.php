@@ -14,7 +14,12 @@ class Book extends Model
         'author_id',
         'genre_id',
         'published_year',
+        'amount',
         'localization',
         'isbn',
+    ];
+
+    protected $attributes = [
+        'deleted_at' => null,
     ];
 }

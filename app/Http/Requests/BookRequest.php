@@ -32,6 +32,34 @@ class BookRequest extends FormRequest
                     ->ignore($this->route('book')),
             ],
 
+            'author_id' => [
+                'required',
+                'exists:authors,id',
+            ],
+
+            'genre_id' => [
+                'required',
+                'exists:genres,id',
+            ],
+
+            'published_year' => [
+                'nullable',
+                'integer',
+                'min:1000',
+                'max:' . date('Y'),
+            ],
+
+            'amount' => [
+                'required',
+                'integer',
+            ],
+
+            'localization' => [
+                'nullable',
+                'string',
+                'max:255',
+            ],
+
             'isbn' => [
                 'nullable',
                 'string',
