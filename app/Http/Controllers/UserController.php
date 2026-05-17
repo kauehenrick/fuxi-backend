@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -24,7 +25,6 @@ class UserController extends Controller
         ]);
 
         $user = User::create($validated);
-
         return response()->json($user, 201);
     }
 
@@ -35,27 +35,26 @@ class UserController extends Controller
             'password' => ['required'],
         ]);
 
-        if (!Auth::attempt($credentials)) {
+        $user = User::where('email', $credentials['email'])->first();
+
+        if (!$user || !Hash::check($credentials['password'], $user->password)) {
             return response()->json([
                 'message' => 'Credenciais inválidas.',
             ], 401);
         }
 
-        $request->session()->regenerate();
+        $token = $user->createToken('desktop')->plainTextToken;
 
         return response()->json([
             'message' => 'Login realizado com sucesso.',
-            'user' => Auth::user(),
+            'token' => $token,
+            'user' => $user,
         ]);
     }
 
     public function logout(Request $request)
     {
-        Auth::logout();
-
-        $request->session()->invalidate();
-
-        $request->session()->regenerateToken();
+        $request->user()->currentAccessToken()->delete();
 
         return response()->json([
             'message' => 'Logout realizado com sucesso.',

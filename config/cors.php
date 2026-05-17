@@ -19,7 +19,13 @@ return [
 
     'allowed_methods' => ['*'],
 
-    'allowed_origins' => ['http://localhost:5173', 'https://acaros-manage.vercel.app',],
+    'allowed_origins' => [
+        'http://localhost:5173',
+        'https://acaros-manage.vercel.app',
+        'http://tauri.localhost',
+        'tauri://localhost',
+        'http://localhost',
+    ],
 
     'allowed_origins_patterns' => [],
 

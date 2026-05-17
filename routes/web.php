@@ -21,7 +21,7 @@ Route::prefix('api')->group(function () {
     Route::post('/users', [UserController::class, 'store']);
     Route::post('/login', [UserController::class, 'login']);
 
-    Route::middleware(['auth:web'])
+    Route::middleware(['auth:sanctum'])
         ->group(function () {
             Route::get('/me', function (Request $request) {
                 return response()->json($request->user());
