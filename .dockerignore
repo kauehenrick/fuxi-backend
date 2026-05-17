@@ -1,7 +1,0 @@
-docker/*
-!docker/render/
-!docker/render/**
-!docker/php/
-!docker/php/**
-!docker/nginx/
-!docker/nginx/**
