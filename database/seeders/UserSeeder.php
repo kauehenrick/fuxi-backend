@@ -10,7 +10,7 @@ class UserSeeder extends Seeder
 {
     public function run(): void
     {
-        if (DB::table('users')->where('email', 'admin@admin.com')->exists()) {
+        if (DB::table('users')->where('email', 'admin@fuxi.com')->exists()) {
             return;
         }
 

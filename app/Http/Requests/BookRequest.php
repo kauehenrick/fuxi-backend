@@ -34,12 +34,12 @@ class BookRequest extends FormRequest
 
             'author_id' => [
                 'required',
-                'exists:authors,id',
+                Rule::exists('authors', 'id')->whereNull('deleted_at'),
             ],
 
             'genre_id' => [
                 'required',
-                'exists:genres,id',
+                Rule::exists('genres', 'id')->whereNull('deleted_at'),
             ],
 
             'published_year' => [
@@ -52,6 +52,7 @@ class BookRequest extends FormRequest
             'amount' => [
                 'required',
                 'integer',
+                'min:1',
             ],
 
             'localization' => [
@@ -63,7 +64,7 @@ class BookRequest extends FormRequest
             'isbn' => [
                 'nullable',
                 'string',
-                'max:255',
+                'max:13',
                 Rule::unique('books', 'isbn')
                     ->ignore($this->route('book')),
             ],
@@ -75,6 +76,8 @@ class BookRequest extends FormRequest
         return [
             'title.unique' => 'Já existe um livro com este título.',
             'isbn.unique' => 'Já existe um livro com este ISBN.',
+            'author_id.exists' => 'Selecione um autor ativo.',
+            'genre_id.exists' => 'Selecione um gênero ativo.',
         ];
     }
 

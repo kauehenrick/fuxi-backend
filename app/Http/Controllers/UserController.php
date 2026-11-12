@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
@@ -25,7 +24,13 @@ class UserController extends Controller
         ]);
 
         $user = User::create($validated);
-        return response()->json($user, 201);
+        $token = $user->createToken('web')->plainTextToken;
+
+        return response()->json([
+            'message' => 'Usuário cadastrado com sucesso.',
+            'token' => $token,
+            'user' => $user,
+        ], 201);
     }
 
     public function login(Request $request)

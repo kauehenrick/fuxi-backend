@@ -19,13 +19,10 @@ return [
 
     'allowed_methods' => ['*'],
 
-    'allowed_origins' => [
-        'http://localhost:5173',
-        'https://acaros-manage.vercel.app',
-        'http://tauri.localhost',
-        'tauri://localhost',
-        'http://localhost',
-    ],
+    'allowed_origins' => array_filter(array_map('trim', explode(',', env(
+        'CORS_ALLOWED_ORIGINS',
+        'http://localhost:5173,http://localhost'
+    )))),
 
     'allowed_origins_patterns' => [],
 
