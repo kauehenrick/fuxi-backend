@@ -2,7 +2,7 @@
 
 ## Implementação
 
-Laravel 13 e PHP 8.3+, Laravel Sanctum para tokens pessoais, Eloquent e banco relacional. O desenvolvimento local usa MySQL 8 em Docker; a demo usa Postgres no Supabase. Autores, gêneros e livros suportam soft delete.
+Laravel 13 e PHP 8.3+, Laravel Sanctum para tokens pessoais, Eloquent e banco relacional. O ambiente local usa MySQL 8 em Docker. Autores, gêneros e livros suportam soft delete.
 
 Todas as rotas de domínio usam o prefixo `/api`. Exceto cadastro e login, elas exigem:
 
@@ -55,6 +55,6 @@ Campos obrigatórios de livro: `title`, `author_id`, `genre_id` e `amount` (mín
 
 ## Segurança e operação
 
-- `CORS_ALLOWED_ORIGINS` recebe origens separadas por vírgula; para produção, use apenas a URL Vercel da demo.
+- `CORS_ALLOWED_ORIGINS` recebe origens separadas por vírgula; no ambiente local, mantenha `http://localhost:5173` na lista.
 - Nunca versione `.env`, `APP_KEY`, senha de banco ou token.
 - Para uma origem de browser, o token é enviado em `Authorization`; não há cookie de sessão necessário.
